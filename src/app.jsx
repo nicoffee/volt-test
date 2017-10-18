@@ -1,6 +1,10 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React from "react";
+import {render} from "react-dom";
+import Root from "./components/Root"
+import configureStore from "./configureStore";
 
-import 'react-select/dist/react-select.css';
-
-render(<div>Place your application here</div>, document.getElementById('app-root'));
+const store = configureStore();
+render(
+  <Root store={store}/>,
+  document.getElementById("app-root") // eslint-disable-line no-undef
+);
