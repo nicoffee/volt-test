@@ -1,15 +1,17 @@
-import {createStore, applyMiddleware} from 'redux';
-// import thunk from 'redux-thunk';
-import logger from 'redux-logger';
-import todoApp from './reducers';
+import { createStore, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
+import logger from "redux-logger";
+import rootReducer from "./reducers";
 
 const configureStore = () => {
-  const middlewares = [];
-  if (process.env.NODE_ENV !== 'production') { // eslint-disable-line no-undef
+  const middlewares = [ReduxThunk];
+
+  if (process.env.NODE_ENV !== "production") {
+    // eslint-disable-line no-undef
     middlewares.push(logger);
   }
 
-  return createStore(todoApp, applyMiddleware(...middlewares));
+  return createStore(rootReducer, applyMiddleware(...middlewares));
 };
 
 export default configureStore;

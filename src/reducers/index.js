@@ -1,3 +1,55 @@
-import {combineReducers} from "redux";
+import { combineReducers } from "redux";
+import * as types from "../types";
 
-export default () => {};
+const products = (
+  state = {
+    isFetching: false,
+    items: []
+  },
+  action
+) => {
+  switch (action.type) {
+    case types.FETCH_PRODUCTS_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case types.FETCH_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        items: action.items,
+        isFetching: false
+      };
+    default:
+      return state;
+  }
+};
+
+const customers = (
+  state = {
+    isFetching: false,
+    items: []
+  },
+  action
+) => {
+  switch (action.type) {
+    case types.FETCH_CUSTOMERS_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case types.FETCH_CUSTOMERS_SUCCESS:
+    console.log('123');
+      return {
+        ...state,
+        items: action.items,
+        isFetching: false
+      };
+    default:
+      return state;
+  }
+};
+
+const rootReducer = combineReducers({ products, customers });
+
+export default rootReducer;
