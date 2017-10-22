@@ -1,9 +1,5 @@
-import React from "react";
+import React from 'react'
 
-const Preloader = () => (
-  <div>
-      
-  </div>
-);
+const Preloader = () => <div />
 
-export default Preloader;
+export default Preloader

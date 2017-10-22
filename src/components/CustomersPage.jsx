@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Table } from "react-bootstrap";
-import { fetchCustomers } from "../actions";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Table } from 'react-bootstrap'
+import { fetchCustomers } from '../actions/customers'
 
 class CustomersPage extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchCustomers());
+    this.props.dispatch(fetchCustomers())
   }
 
   render() {
-    const {isFetching, customers} = this.props;
+    const { isFetching, customers } = this.props
 
     return isFetching ? (
       <span>Loading...</span>
@@ -37,13 +37,13 @@ class CustomersPage extends Component {
           </tbody>
         </Table>
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
   isFetching: state.customers.isFetching,
   customers: state.customers.items
-});
+})
 
-export default connect(mapStateToProps)(CustomersPage);
+export default connect(mapStateToProps)(CustomersPage)

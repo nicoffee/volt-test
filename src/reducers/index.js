@@ -1,5 +1,5 @@
-import { combineReducers } from "redux";
-import * as types from "../types";
+import { combineReducers } from 'redux'
+import * as types from '../types'
 
 const products = (
   state = {
@@ -13,28 +13,50 @@ const products = (
       return {
         ...state,
         isFetching: true
-      };
+      }
     case types.FETCH_PRODUCTS_SUCCESS:
       return {
         ...state,
         items: action.items,
         isFetching: false
-      };
+      }
     case types.CREATE_PRODUCT_REQUEST:
       return {
         ...state,
         isFetching: true
-      };
+      }
     case types.CREATE_PRODUCT_REQUEST:
-    return {
-      ...state,
-      payload: action,
-      isFetching: false
-    };
+      return {
+        ...state,
+        payload: action,
+        isFetching: false
+      }
+    case types.EDIT_PRODUCT_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case types.EDIT_PRODUCT_REQUEST:
+      return {
+        ...state,
+        payload: action,
+        isFetching: false
+      }
+    case types.DELETE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case types.DELETE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        payload: action,
+        isFetching: false
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
 const customers = (
   state = {
@@ -48,18 +70,18 @@ const customers = (
       return {
         ...state,
         isFetching: true
-      };
+      }
     case types.FETCH_CUSTOMERS_SUCCESS:
       return {
         ...state,
         items: action.items,
         isFetching: false
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-const rootReducer = combineReducers({ products, customers });
+const rootReducer = combineReducers({ products, customers })
 
-export default rootReducer;
+export default rootReducer

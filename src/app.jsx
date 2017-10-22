@@ -1,10 +1,10 @@
-import React from "react";
-import {render} from "react-dom";
-import Root from "./components/Root"
-import configureStore from "./configureStore";
+import React from 'react'
+import { render } from 'react-dom'
+import Root from './components/Root'
+import configureStore from './configureStore'
 
-const store = configureStore();
+const store = configureStore()
 render(
-  <Root store={store}/>,
-  document.getElementById("app-root") // eslint-disable-line no-undef
-);
+  <Root store={store} />,
+  document.getElementById('app-root') // eslint-disable-line no-undef
+)
