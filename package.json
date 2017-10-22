@@ -25,9 +25,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "sequelize": "^3.20.0",
-    "sqlite3": "^3.1.8",
-    "uuid": "^3.1.0",
-    "uuid-v4": "^0.1.0"
+    "sqlite3": "^3.1.8"
   },
   "devDependencies": {
     "babel-core": "^6.3.21",

@@ -8,7 +8,6 @@ const products = (
   },
   action
 ) => {
-  console.log('action', action);
   switch (action.type) {
     case types.FETCH_PRODUCTS_REQUEST:
       return {

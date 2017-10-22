@@ -7,8 +7,8 @@ import {
   FormControl,
   ControlLabel
 } from "react-bootstrap";
-import { fetchProducts, addProduct } from "../actions";
-import { uuidv4 } from "uuid-v4";
+import { fetchProducts, addProduct } from "../actions/products";
+import uuid from "uuid";
 
 class ProductsPage extends Component {
   constructor() {
@@ -17,7 +17,7 @@ class ProductsPage extends Component {
     this.state = {
       isModalOpen: false,
       formData: {
-        id: uuidv4(),
+        id: uuid(),
         name: null,
         price: null
       }
@@ -29,18 +29,33 @@ class ProductsPage extends Component {
   }
 
   componentDidMount() {
-    console.log();
     this.props.dispatch(fetchProducts());
   }
 
   submitData(e) {
     e.preventDefault();
-    console.log("submitData", addProduct);
     this.props.dispatch(addProduct(this.state.formData));
   }
 
   handleChange(e) {
-    console.log('e', e);
+    switch (e.target.name) {
+      case 'name':
+        this.setState({
+          formData: {
+            ...this.state.formData,
+            name: e.target.value
+          }
+        });
+        return;
+      case 'price':
+        this.setState({
+          formData: {
+            ...this.state.formData,
+            price: e.target.value
+          }
+        });
+        return;
+    }
   }
 
   toggleModal() {
@@ -66,8 +81,18 @@ class ProductsPage extends Component {
             <form onSubmit={this.submitData}>
               <FormGroup>
                 <ControlLabel>Working example with validation</ControlLabel>
-                <FormControl type="text" placeholder="Enter text" onChange={this.handleChange}/>
-                <FormControl type="text" placeholder="Enter text" onChange={this.handleChange}/>
+                <FormControl
+                  name="name"
+                  type="text"
+                  placeholder="Enter text"
+                  onChange={this.handleChange}
+                />
+                <FormControl
+                  name="price"
+                  type="text"
+                  placeholder="Enter price"
+                  onChange={this.handleChange}
+                />
                 <button type="submit">Subli</button>
               </FormGroup>
             </form>
