@@ -8,6 +8,7 @@ const products = (
   },
   action
 ) => {
+  console.log('action', action);
   switch (action.type) {
     case types.FETCH_PRODUCTS_REQUEST:
       return {
@@ -20,6 +21,17 @@ const products = (
         items: action.items,
         isFetching: false
       };
+    case types.CREATE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case types.CREATE_PRODUCT_REQUEST:
+    return {
+      ...state,
+      payload: action,
+      isFetching: false
+    };
     default:
       return state;
   }
@@ -39,7 +51,6 @@ const customers = (
         isFetching: true
       };
     case types.FETCH_CUSTOMERS_SUCCESS:
-    console.log('123');
       return {
         ...state,
         items: action.items,

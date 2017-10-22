@@ -10,6 +10,15 @@ const receiveProducts = response => ({
   items: response.data
 });
 
+const requestCreateProduct = () => ({
+  type: types.CREATE_PRODUCT_REQUEST
+});
+
+const receiveCreateProduct = response => ({
+  type: types.CREATE_PRODUCT_SUCCESS,
+  items: response.data
+});
+
 const requestCustomers = () => ({
   type: types.FETCH_CUSTOMERS_REQUEST
 });
@@ -31,4 +40,11 @@ export const fetchCustomers = () => dispatch => {
   return axios
     .get("/api/customers")
     .then(response => dispatch(receiveCustomers(response)));
+};
+
+export const addProduct = () => dispatch => {
+  dispatch(requestCreateProduct());
+  return axios
+    .post("/api/products")
+    .then(response => dispatch(receiveCreateProduct(response)));
 };

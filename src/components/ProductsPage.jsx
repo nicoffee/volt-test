@@ -1,11 +1,52 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Table } from "react-bootstrap";
-import { fetchProducts } from "../actions";
+import {
+  Table,
+  Modal,
+  FormGroup,
+  FormControl,
+  ControlLabel
+} from "react-bootstrap";
+import { fetchProducts, addProduct } from "../actions";
+import { uuidv4 } from "uuid-v4";
 
 class ProductsPage extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isModalOpen: false,
+      formData: {
+        id: uuidv4(),
+        name: null,
+        price: null
+      }
+    };
+
+    this.toggleModal = this.toggleModal.bind(this);
+    this.submitData = this.submitData.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   componentDidMount() {
+    console.log();
     this.props.dispatch(fetchProducts());
+  }
+
+  submitData(e) {
+    e.preventDefault();
+    console.log("submitData", addProduct);
+    this.props.dispatch(addProduct(this.state.formData));
+  }
+
+  handleChange(e) {
+    console.log('e', e);
+  }
+
+  toggleModal() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen
+    });
   }
 
   render() {
@@ -16,6 +57,26 @@ class ProductsPage extends Component {
     ) : (
       <div>
         <h1>Product list</h1>
+        <button onClick={this.toggleModal}>Create</button>
+        <Modal show={this.state.isModalOpen} onHide={close}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form onSubmit={this.submitData}>
+              <FormGroup>
+                <ControlLabel>Working example with validation</ControlLabel>
+                <FormControl type="text" placeholder="Enter text" onChange={this.handleChange}/>
+                <FormControl type="text" placeholder="Enter text" onChange={this.handleChange}/>
+                <button type="submit">Subli</button>
+              </FormGroup>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <button onClick={this.toggleModal}>Close</button>
+            <button onClick={this.submitData}>Create</button>
+          </Modal.Footer>
+        </Modal>
         <Table>
           <thead>
             <tr>
