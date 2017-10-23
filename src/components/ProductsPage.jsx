@@ -33,8 +33,8 @@ class ProductsPage extends Component {
         name: null,
         price: null
       },
+      currentId: null,
       currentFormData: {
-        id: null,
         name: '',
         price: ''
       }
@@ -60,14 +60,15 @@ class ProductsPage extends Component {
 
   submitDataEdit(e) {
     e.preventDefault()
+    console.log('this.state.currentFormData', this.state.currentFormData)
     this.props.dispatch(
-      editProduct(this.state.currentFormData.id, this.state.formData)
+      editProduct(this.state.currentId, this.state.currentFormData)
     )
   }
 
   submitDataDelete(e) {
     e.preventDefault()
-    this.props.dispatch(deleteProduct(this.state.currentFormData.id))
+    this.props.dispatch(deleteProduct(this.state.currentId))
   }
 
   handleChange(e) {
@@ -97,7 +98,7 @@ class ProductsPage extends Component {
       case 'name':
         this.setState({
           currentFormData: {
-            ...this.state.formData,
+            ...this.state.currentFormData,
             name: e.target.value
           }
         })
@@ -105,7 +106,7 @@ class ProductsPage extends Component {
       case 'price':
         this.setState({
           currentFormData: {
-            ...this.state.formData,
+            ...this.state.currentFormData,
             price: e.target.value
           }
         })
@@ -231,10 +232,10 @@ class ProductsPage extends Component {
                         e.preventDefault()
                         this.setState({
                           currentFormData: {
-                            id: item.id,
                             name: item.name,
                             price: item.price
                           },
+                          currentId: item.id,
                           isEditModalOpen: !this.state.isEditModalOpen
                         })
                       }}>

@@ -36,7 +36,7 @@ const products = (
         ...state,
         isFetching: true
       }
-    case types.EDIT_PRODUCT_REQUEST:
+    case types.EDIT_PRODUCT_SUCCESS:
       return {
         ...state,
         payload: action,
@@ -47,7 +47,7 @@ const products = (
         ...state,
         isFetching: true
       }
-    case types.DELETE_PRODUCT_REQUEST:
+    case types.DELETE_PRODUCT_SUCCESS:
       return {
         ...state,
         payload: action,
