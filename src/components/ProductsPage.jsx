@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import DocumentTitle from 'react-document-title'
 import {
   Table,
-  Modal,
   FormGroup,
   FormControl,
   ControlLabel,
@@ -18,6 +17,8 @@ import {
   editProduct,
   deleteProduct
 } from '../actions/products'
+import CustomModal from './Modal'
+import DeleteModal from './Modals/DeleteModal'
 
 import uuid from 'uuid'
 
@@ -28,6 +29,7 @@ class ProductsPage extends Component {
     this.state = {
       isModalOpen: false,
       isEditModalOpen: false,
+      isDeleteModalOpen: false,
       formData: {
         id: uuid(),
         name: null,
@@ -42,6 +44,7 @@ class ProductsPage extends Component {
 
     this.toggleModal = this.toggleModal.bind(this)
     this.toggleEditModal = this.toggleEditModal.bind(this)
+    this.toggleDeleteModal = this.toggleDeleteModal.bind(this)
     this.submitData = this.submitData.bind(this)
     this.submitDataEdit = this.submitDataEdit.bind(this)
     this.submitDataDelete = this.submitDataDelete.bind(this)
@@ -56,19 +59,21 @@ class ProductsPage extends Component {
   submitData(e) {
     e.preventDefault()
     this.props.dispatch(addProduct(this.state.formData))
+    this.toggleModal()
   }
 
   submitDataEdit(e) {
     e.preventDefault()
-    console.log('this.state.currentFormData', this.state.currentFormData)
     this.props.dispatch(
       editProduct(this.state.currentId, this.state.currentFormData)
     )
+    this.toggleEditModal()
   }
 
   submitDataDelete(e) {
     e.preventDefault()
     this.props.dispatch(deleteProduct(this.state.currentId))
+    this.toggleDeleteModal()
   }
 
   handleChange(e) {
@@ -93,7 +98,6 @@ class ProductsPage extends Component {
   }
 
   handleEditChange(e) {
-    console.log('this.state', this.state)
     switch (e.target.name) {
       case 'name':
         this.setState({
@@ -126,8 +130,14 @@ class ProductsPage extends Component {
     })
   }
 
+  toggleDeleteModal() {
+    this.setState({
+      isDeleteModalOpen: !this.state.isDeleteModalOpen
+    })
+  }
+
   render() {
-    const { isFetching, products } = this.props
+    const {isFetching, products} = this.props
 
     return isFetching ? (
       <span>Loading...</span>
@@ -139,111 +149,77 @@ class ProductsPage extends Component {
             <Button onClick={this.toggleModal}>Create</Button>
           </PageHeader>
 
-          <Modal show={this.state.isModalOpen} onHide={this.toggleModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>Edit </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form onSubmit={this.submitData}>
-                <FormGroup>
-                  <ControlLabel>Name</ControlLabel>
-                  <FormControl
-                    name="name"
-                    type="text"
-                    placeholder="Enter text"
-                    onChange={this.handleChange}
-                  />
-                  <FormGroup />
-                  <ControlLabel>Price</ControlLabel>
-                  <FormControl
-                    name="price"
-                    type="text"
-                    placeholder="Enter price"
-                    onChange={this.handleChange}
-                  />
-                </FormGroup>
-              </form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button bsStyle="success" onClick={this.submitData}>
-                Create
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          <CustomModal
+            show={this.state.isModalOpen}
+            onHide={this.toggleModal}
+            title="Create"
+            onSubmit={this.submitData}
+            onChange={this.handleChange}
+            onClick={this.submitData}
+            buttonCaption="Create"/>
 
-          <Modal
+          <CustomModal
             show={this.state.isEditModalOpen}
-            onHide={this.toggleEditModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>Edit</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form onSubmit={this.submitData}>
-                <FormGroup>
-                  <ControlLabel>Name</ControlLabel>
-                  <FormControl
-                    value={this.state.currentFormData.name}
-                    name="name"
-                    type="text"
-                    placeholder="Enter name"
-                    onChange={this.handleEditChange}
-                  />
-                  <FormGroup />
-                  <ControlLabel>Price</ControlLabel>
-                  <FormControl
-                    value={this.state.currentFormData.price}
-                    name="price"
-                    type="number"
-                    placeholder="Enter price"
-                    onChange={this.handleEditChange}
-                  />
-                </FormGroup>
-              </form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button bsStyle="danger" onClick={this.submitDataDelete}>
-                Delete
-              </Button>
-              <Button bsStyle="success" onClick={this.submitDataEdit}>
-                Edit
-              </Button>
-            </Modal.Footer>
-          </Modal>
+            onHide={this.toggleEditModal}
+            title="Edit"
+            onSubmit={this.submitData}
+            name={this.state.currentFormData.name}
+            price={this.state.currentFormData.price}
+            onChange={this.handleEditChange}
+            onClick={this.submitDataEdit}
+            buttonCaption="Edit"/>
+
+          <DeleteModal show={this.state.isDeleteModalOpen} onHide={this.toggleDeleteModal}
+                       onClick={this.submitDataDelete}/>
 
           <Table>
             <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th />
-              </tr>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th/>
+              <th/>
+            </tr>
             </thead>
             <tbody>
-              {products.map((item, index) => (
-                <tr key={index}>
-                  <td>{index}</td>
-                  <td>{item.name}</td>
-                  <td>{item.price}</td>
-                  <td>
-                    <a
-                      href="#"
-                      onClick={e => {
-                        e.preventDefault()
-                        this.setState({
-                          currentFormData: {
-                            name: item.name,
-                            price: item.price
-                          },
-                          currentId: item.id,
-                          isEditModalOpen: !this.state.isEditModalOpen
-                        })
-                      }}>
-                      edit
-                    </a>
-                  </td>
-                </tr>
-              ))}
+            {products.map((item, index) => (
+              <tr key={index}>
+                <td>{index}</td>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td>
+                  <a
+                    href="#"
+                    onClick={e => {
+                      e.preventDefault()
+                      this.setState({
+                        currentFormData: {
+                          name: item.name,
+                          price: item.price
+                        },
+                        currentId: item.id,
+                        isEditModalOpen: !this.state.isEditModalOpen
+                      })
+                    }}>
+                    edit
+                  </a>
+                </td>
+                <td>
+                  <a style={{color: 'red'}}
+                     href="#"
+                     onClick={e => {
+                       e.preventDefault()
+                       this.setState({
+                         currentId: item.id,
+                         isDeleteModalOpen: !this.state.isDeleteModalOpen
+                       })
+                     }}>
+                    delete
+                  </a>
+                </td>
+              </tr>
+            ))}
             </tbody>
           </Table>
         </Grid>

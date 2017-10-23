@@ -25,7 +25,7 @@ const products = (
         ...state,
         isFetching: true
       }
-    case types.CREATE_PRODUCT_REQUEST:
+    case types.CREATE_PRODUCT_SUCCESS:
       return {
         ...state,
         payload: action,
@@ -47,11 +47,10 @@ const products = (
         ...state,
         isFetching: true
       }
-    case types.DELETE_PRODUCT_SUCCESS:
+      case types.DELETE_PRODUCT_SUCCESS:
       return {
         ...state,
-        payload: action,
-        isFetching: false
+          items: state.items.filter(item => item.id !== action.payload)
       }
     default:
       return state

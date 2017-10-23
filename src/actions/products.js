@@ -31,8 +31,9 @@ const requestDeleteProduct = () => ({
   type: types.DELETE_PRODUCT_REQUEST
 })
 
-const receiveDeleteProduct = response => ({
-  type: types.DELETE_PRODUCT_SUCCESS
+const receiveDeleteProduct = id => ({
+  type: types.DELETE_PRODUCT_SUCCESS,
+  payload: id
 })
 
 export const fetchProducts = () => dispatch => {
@@ -60,5 +61,7 @@ export const deleteProduct = id => dispatch => {
   dispatch(requestDeleteProduct())
   return axios
     .delete(`/api/products/${id}`)
-    .then(response => dispatch(receiveDeleteProduct(response)))
+    .then(response => {
+      dispatch(receiveDeleteProduct(id))
+    })
 }
