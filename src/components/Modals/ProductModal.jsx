@@ -1,13 +1,24 @@
-import React, {Component} from 'react'
-import {Modal, FormGroup,
+import React, { Component } from 'react'
+import {
+  Modal,
+  FormGroup,
   FormControl,
   ControlLabel,
-  Button} from 'react-bootstrap'
+  Button
+} from 'react-bootstrap'
 
-const CustomModal = ({show, onHide, title, onClick, onSubmit, name, price, onChange, buttonCaption}) => (
-  <Modal
-    show={show}
-    onHide={onHide}>
+const ProductModal = ({
+  show,
+  onHide,
+  title,
+  onClick,
+  onSubmit,
+  name,
+  price,
+  onChange,
+  buttonCaption
+}) => (
+  <Modal show={show} onHide={onHide}>
     <Modal.Header closeButton>
       <Modal.Title>{title}</Modal.Title>
     </Modal.Header>
@@ -22,7 +33,7 @@ const CustomModal = ({show, onHide, title, onClick, onSubmit, name, price, onCha
             placeholder="Enter name"
             onChange={onChange}
           />
-          <FormGroup/>
+          <FormGroup />
           <ControlLabel>Price</ControlLabel>
           <FormControl
             value={price}
@@ -42,5 +53,4 @@ const CustomModal = ({show, onHide, title, onClick, onSubmit, name, price, onCha
   </Modal>
 )
 
-export default CustomModal
-
+export default ProductModal

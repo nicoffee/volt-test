@@ -14,17 +14,19 @@ const requestCreateProduct = () => ({
   type: types.CREATE_PRODUCT_REQUEST
 })
 
-const receiveCreateProduct = response => ({
+const receiveCreateProduct = data => ({
   type: types.CREATE_PRODUCT_SUCCESS,
-  items: response.data
+  payload: data
 })
 
 const requestEditProduct = () => ({
   type: types.EDIT_PRODUCT_REQUEST
 })
 
-const receiveEditProduct = response => ({
-  type: types.EDIT_PRODUCT_SUCCESS
+const receiveEditProduct = (id, data) => ({
+  type: types.EDIT_PRODUCT_SUCCESS,
+  payload: data,
+  id
 })
 
 const requestDeleteProduct = () => ({
@@ -47,21 +49,19 @@ export const addProduct = data => dispatch => {
   dispatch(requestCreateProduct())
   return axios
     .post('/api/products', data)
-    .then(response => dispatch(receiveCreateProduct(response)))
+    .then(response => dispatch(receiveCreateProduct(data)))
 }
 
 export const editProduct = (id, data) => dispatch => {
   dispatch(requestEditProduct())
   return axios
     .put(`/api/products/${id}`, data)
-    .then(response => dispatch(receiveEditProduct(response)))
+    .then(response => dispatch(receiveEditProduct(id, data)))
 }
 
 export const deleteProduct = id => dispatch => {
   dispatch(requestDeleteProduct())
-  return axios
-    .delete(`/api/products/${id}`)
-    .then(response => {
-      dispatch(receiveDeleteProduct(id))
-    })
+  return axios.delete(`/api/products/${id}`).then(response => {
+    dispatch(receiveDeleteProduct(id))
+  })
 }

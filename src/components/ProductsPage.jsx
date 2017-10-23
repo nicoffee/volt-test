@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import DocumentTitle from 'react-document-title'
 import {
   Table,
@@ -17,7 +17,7 @@ import {
   editProduct,
   deleteProduct
 } from '../actions/products'
-import CustomModal from './Modal'
+import ProductModal from './Modals/ProductModal'
 import DeleteModal from './Modals/DeleteModal'
 
 import uuid from 'uuid'
@@ -137,7 +137,7 @@ class ProductsPage extends Component {
   }
 
   render() {
-    const {isFetching, products} = this.props
+    const { isFetching, products } = this.props
 
     return isFetching ? (
       <span>Loading...</span>
@@ -149,77 +149,83 @@ class ProductsPage extends Component {
             <Button onClick={this.toggleModal}>Create</Button>
           </PageHeader>
 
-          <CustomModal
+          <ProductModal
             show={this.state.isModalOpen}
             onHide={this.toggleModal}
             title="Create"
             onSubmit={this.submitData}
             onChange={this.handleChange}
             onClick={this.submitData}
-            buttonCaption="Create"/>
+            buttonCaption="Create"
+          />
 
-          <CustomModal
+          <ProductModal
             show={this.state.isEditModalOpen}
             onHide={this.toggleEditModal}
             title="Edit"
-            onSubmit={this.submitData}
+            onSubmit={this.submitDataEdit}
             name={this.state.currentFormData.name}
             price={this.state.currentFormData.price}
             onChange={this.handleEditChange}
             onClick={this.submitDataEdit}
-            buttonCaption="Edit"/>
+            buttonCaption="Edit"
+          />
 
-          <DeleteModal show={this.state.isDeleteModalOpen} onHide={this.toggleDeleteModal}
-                       onClick={this.submitDataDelete}/>
+          <DeleteModal
+            show={this.state.isDeleteModalOpen}
+            onHide={this.toggleDeleteModal}
+            onClick={this.submitDataDelete}
+          />
 
           <Table>
             <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th/>
-              <th/>
-            </tr>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th />
+                <th />
+              </tr>
             </thead>
             <tbody>
-            {products.map((item, index) => (
-              <tr key={index}>
-                <td>{index}</td>
-                <td>{item.name}</td>
-                <td>{item.price}</td>
-                <td>
-                  <a
-                    href="#"
-                    onClick={e => {
-                      e.preventDefault()
-                      this.setState({
-                        currentFormData: {
-                          name: item.name,
-                          price: item.price
-                        },
-                        currentId: item.id,
-                        isEditModalOpen: !this.state.isEditModalOpen
-                      })
-                    }}>
-                    edit
-                  </a>
-                </td>
-                <td>
-                  <a style={{color: 'red'}}
-                     href="#"
-                     onClick={e => {
-                       e.preventDefault()
-                       this.setState({
-                         currentId: item.id,
-                         isDeleteModalOpen: !this.state.isDeleteModalOpen
-                       })
-                     }}>
-                    delete
-                  </a>
-                </td>
-              </tr>
-            ))}
+              {products.map((item, index) => (
+                <tr key={index}>
+                  <td>{index}</td>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
+                  <td>
+                    <a
+                      href="#"
+                      onClick={e => {
+                        e.preventDefault()
+                        this.setState({
+                          currentFormData: {
+                            name: item.name,
+                            price: item.price
+                          },
+                          currentId: item.id,
+                          isEditModalOpen: !this.state.isEditModalOpen
+                        })
+                      }}>
+                      edit
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      style={{ color: 'red' }}
+                      href="#"
+                      onClick={e => {
+                        e.preventDefault()
+                        this.setState({
+                          currentId: item.id,
+                          isDeleteModalOpen: !this.state.isDeleteModalOpen
+                        })
+                      }}>
+                      delete
+                    </a>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </Grid>
