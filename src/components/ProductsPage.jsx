@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import uuid from 'uuid'
 import DocumentTitle from 'react-document-title'
 import { Button, Grid, PageHeader } from 'react-bootstrap'
-import uuid from 'uuid'
+import Loader from 'react-loader'
 import {
   fetchProducts,
   addProduct,
@@ -125,7 +126,7 @@ class ProductsPage extends Component {
         this.setState({
           currentFormData: {
             ...this.state.currentFormData,
-            price: e.target.value
+            address: e.target.value
           }
         })
         return
@@ -207,7 +208,7 @@ class ProductsPage extends Component {
 
 ProductsPage.propTypes = {
   products: PropTypes.array,
-  isFetching: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool,
   dispatch: PropTypes.func.isRequired
 }
 

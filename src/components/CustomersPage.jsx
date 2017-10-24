@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import uuid from 'uuid'
 import DocumentTitle from 'react-document-title'
 import { Button, Grid, PageHeader } from 'react-bootstrap'
-import uuid from 'uuid'
+import Loader from 'react-loader'
+import FormModal from './Modals/FormModal'
+import DeleteModal from './Modals/DeleteModal'
+import ContentTable from './ContentTable'
 import {
   fetchCustomers,
   addCustomer,
   editCustomer,
   deleteCustomer
 } from '../actions/customers'
-import FormModal from './Modals/FormModal'
-import DeleteModal from './Modals/DeleteModal'
-import ContentTable from './ContentTable'
 
 class CustomersPage extends Component {
   componentDidMount() {
@@ -57,7 +58,8 @@ class CustomersPage extends Component {
     this.setState({
       currentFormData: {
         name: item.name,
-        price: item.price
+        address: item.address,
+        phone: item.phone
       },
       currentId: item.id,
       isEditModalOpen: !this.state.isEditModalOpen
@@ -123,11 +125,19 @@ class CustomersPage extends Component {
           }
         })
         return
-      case 'price':
+      case 'address':
         this.setState({
           currentFormData: {
             ...this.state.currentFormData,
-            price: e.target.value
+            address: e.target.value
+          }
+        })
+        return
+      case 'phone':
+        this.setState({
+          currentFormData: {
+            ...this.state.currentFormData,
+            phone: e.target.value
           }
         })
         return
@@ -156,12 +166,12 @@ class CustomersPage extends Component {
     const { isFetching, customers } = this.props
 
     return isFetching ? (
-      <span>Loading...</span>
+      <Loader />
     ) : (
-      <DocumentTitle title="Products">
+      <DocumentTitle title="Customers">
         <Grid>
           <PageHeader>
-            <strong>Product list</strong>{' '}
+            <strong>Customers list</strong>{' '}
             <Button onClick={this.toggleModal}>Create</Button>
           </PageHeader>
           <ContentTable
@@ -190,7 +200,8 @@ class CustomersPage extends Component {
             title="Edit"
             onSubmit={this.submitDataEdit}
             name={this.state.currentFormData.name}
-            price={this.state.currentFormData.price}
+            address={this.state.currentFormData.address}
+            phone={this.state.currentFormData.phone}
             onChange={this.handleEditChange}
             onClick={this.submitDataEdit}
             buttonCaption="Edit"
@@ -209,7 +220,7 @@ class CustomersPage extends Component {
 
 CustomersPage.propTypes = {
   customers: PropTypes.array,
-  isFetching: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool,
   dispatch: PropTypes.func.isRequired
 }
 
