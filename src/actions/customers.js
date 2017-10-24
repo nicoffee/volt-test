@@ -20,13 +20,22 @@ const receiveCreateCustomer = data => ({
 })
 
 const requestEditCustomer = () => ({
-  type: types.EDIT_PRODUCT_REQUEST
+  type: types.EDIT_CUSTOMER_REQUEST
 })
 
 const receiveEditCustomer = (id, data) => ({
-  type: types.EDIT_PRODUCT_SUCCESS,
+  type: types.EDIT_CUSTOMER_SUCCESS,
   payload: data,
   id
+})
+
+const requestDeleteCustomer = () => ({
+  type: types.DELETE_CUSTOMER_REQUEST
+})
+
+const receiveDeleteCustomer = id => ({
+  type: types.DELETE_CUSTOMER_SUCCESS,
+  payload: id
 })
 
 export const fetchCustomers = () => dispatch => {
@@ -36,43 +45,23 @@ export const fetchCustomers = () => dispatch => {
     .then(response => dispatch(receiveCustomers(response)))
 }
 
-
-
-
-
-const requestDeleteProduct = () => ({
-  type: types.DELETE_PRODUCT_REQUEST
-})
-
-const receiveDeleteProduct = id => ({
-  type: types.DELETE_PRODUCT_SUCCESS,
-  payload: id
-})
-
-export const fetchProducts = () => dispatch => {
-  dispatch(requestProducts())
-  return axios
-    .get('/api/products')
-    .then(response => dispatch(receiveProducts(response)))
-}
-
-export const addProduct = data => dispatch => {
-  dispatch(requestCreateProduct())
+export const addCustomer = data => dispatch => {
+  dispatch(requestCreateCustomer())
   return axios
     .post('/api/products', data)
-    .then(response => dispatch(receiveCreateProduct(data)))
+    .then(response => dispatch(receiveCreateCustomer(data)))
 }
 
-export const editProduct = (id, data) => dispatch => {
-  dispatch(requestEditProduct())
+export const editCustomer = (id, data) => dispatch => {
+  dispatch(requestEditCustomer())
   return axios
     .put(`/api/products/${id}`, data)
-    .then(response => dispatch(receiveEditProduct(id, data)))
+    .then(response => dispatch(receiveEditCustomer(id, data)))
 }
 
-export const deleteProduct = id => dispatch => {
-  dispatch(requestDeleteProduct())
+export const deleteCustomer = id => dispatch => {
+  dispatch(requestDeleteCustomer())
   return axios.delete(`/api/products/${id}`).then(response => {
-    dispatch(receiveDeleteProduct(id))
+    dispatch(receiveDeleteCustomer(id))
   })
 }

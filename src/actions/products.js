@@ -14,10 +14,12 @@ const requestCreateProduct = () => ({
   type: types.CREATE_PRODUCT_REQUEST
 })
 
-const receiveCreateProduct = data => {console.log('data', data); return {
-  type: types.CREATE_PRODUCT_SUCCESS,
-  payload: {...data, price: (+data.price).toFixed(2)}
-}}
+const receiveCreateProduct = data => {
+  return {
+    type: types.CREATE_PRODUCT_SUCCESS,
+    payload: { ...data, price: (+data.price).toFixed(2) }
+  }
+}
 
 const requestEditProduct = () => ({
   type: types.EDIT_PRODUCT_REQUEST
