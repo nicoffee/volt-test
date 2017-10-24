@@ -50,6 +50,19 @@ class ProductsPage extends Component {
     this.submitDataDelete = this.submitDataDelete.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleEditChange = this.handleEditChange.bind(this)
+    this.onEditClick = this.onEditClick.bind(this)
+  }
+
+  onEditClick(e) {
+      e.preventDefault()
+      this.setState({
+        currentFormData: {
+          name: item.name,
+          price: item.price
+        },
+        currentId: item.id,
+        isEditModalOpen: !this.state.isEditModalOpen
+      })
   }
 
   componentDidMount() {
@@ -196,17 +209,7 @@ class ProductsPage extends Component {
                   <td>
                     <a
                       href="#"
-                      onClick={e => {
-                        e.preventDefault()
-                        this.setState({
-                          currentFormData: {
-                            name: item.name,
-                            price: item.price
-                          },
-                          currentId: item.id,
-                          isEditModalOpen: !this.state.isEditModalOpen
-                        })
-                      }}>
+                      onClick={this.onEditCLick}>
                       edit
                     </a>
                   </td>
