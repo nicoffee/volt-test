@@ -1,11 +1,6 @@
-import React, { Component } from 'react'
-import {
-  Modal,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Button
-} from 'react-bootstrap'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Modal, Button } from 'react-bootstrap'
 
 const DeleteModal = ({ show, onHide, onClick }) => (
   <Modal show={show} onHide={onHide}>
@@ -20,5 +15,11 @@ const DeleteModal = ({ show, onHide, onClick }) => (
     </Modal.Footer>
   </Modal>
 )
+
+DeleteModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired
+}
 
 export default DeleteModal

@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Table } from 'react-bootstrap'
 
 const ContentTable = ({ type, columns, items, onEditClick, onDeleteClick }) => (
@@ -38,5 +39,13 @@ const ContentTable = ({ type, columns, items, onEditClick, onDeleteClick }) => (
     </tbody>
   </Table>
 )
+
+ContentTable.propTypes = {
+  type: PropTypes.string,
+  columns: PropTypes.array,
+  onEditClick: PropTypes.func,
+  onDeleteClick: PropTypes.func,
+  items: PropTypes.array.isRequired
+}
 
 export default ContentTable

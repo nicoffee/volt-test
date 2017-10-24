@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Modal,
   FormGroup,
@@ -80,5 +81,20 @@ const FormModal = ({
     </Modal.Footer>
   </Modal>
 )
+
+FormModal.propTypes = {
+  page: PropTypes.string,
+  title: PropTypes.string,
+  name: PropTypes.string,
+  price: PropTypes.string,
+  address: PropTypes.string,
+  phone: PropTypes.string,
+  buttonCaption: PropTypes.string,
+  onClick: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  show: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired
+}
 
 export default FormModal

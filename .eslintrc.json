@@ -10,5 +10,8 @@
   },
   "plugins": ["react"],
   "extends": ["eslint:recommended", "plugin:react/recommended"],
-  "rules": { "react/prop-types": "error" }
+  "rules": {
+    "react/prop-types": "error",
+    "react/no-unused-prop-types": "error"
+  }
 }

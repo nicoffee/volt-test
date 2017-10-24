@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import DocumentTitle from 'react-document-title'
 import { Button, Grid, PageHeader } from 'react-bootstrap'
@@ -202,6 +203,12 @@ class ProductsPage extends Component {
       </DocumentTitle>
     )
   }
+}
+
+ProductsPage.propTypes = {
+  products: PropTypes.array,
+  isFetching: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

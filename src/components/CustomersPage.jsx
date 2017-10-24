@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import DocumentTitle from 'react-document-title'
 import { Button, Grid, PageHeader } from 'react-bootstrap'
@@ -73,21 +74,21 @@ class CustomersPage extends Component {
 
   submitData(e) {
     e.preventDefault()
-    this.props.dispatch(addProduct(this.state.formData))
+    this.props.dispatch(addCustomer(this.state.formData))
     this.toggleModal()
   }
 
   submitDataEdit(e) {
     e.preventDefault()
     this.props.dispatch(
-      editProduct(this.state.currentId, this.state.currentFormData)
+      editCustomer(this.state.currentId, this.state.currentFormData)
     )
     this.toggleEditModal()
   }
 
   submitDataDelete(e) {
     e.preventDefault()
-    this.props.dispatch(deleteProduct(this.state.currentId))
+    this.props.dispatch(deleteCustomer(this.state.currentId))
     this.toggleDeleteModal()
   }
 
@@ -204,6 +205,12 @@ class CustomersPage extends Component {
       </DocumentTitle>
     )
   }
+}
+
+CustomersPage.propTypes = {
+  customers: PropTypes.array,
+  isFetching: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
