@@ -7,13 +7,13 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   context: __dirname,
   devtool: null,
-  entry: [path.resolve(__dirname, 'src/app.jsx')],
+  entry: [path.join(__dirname, 'src/app.jsx')],
   resolve: {
     root: [path.resolve(__dirname, 'src')],
     extensions: ['', '.js', '.jsx', '.css']
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.join(__dirname, '/public/'),
     filename: '[name].js',
     publicPath: './'
   },
@@ -29,6 +29,9 @@ module.exports = {
       compress: {
         warnings: false
       }
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
     })
   ],
   module: {

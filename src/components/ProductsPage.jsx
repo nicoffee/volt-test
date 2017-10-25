@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import uuid from 'uuid'
 import { Button, PageHeader } from 'react-bootstrap'
 import Loader from 'react-loader'
 import {
@@ -24,15 +23,14 @@ class ProductsPage extends Component {
       isEditModalOpen: false,
       isDeleteModalOpen: false,
       formData: {
-        id: uuid(),
-        name: null,
-        price: null
+        name: '',
+        price: ''
       },
-      currentId: null,
       currentFormData: {
-        name: null,
-        price: null
-      }
+        name: '',
+        price: ''
+      },
+      currentId: null
     }
 
     this.toggleModal = this.toggleModal.bind(this)
@@ -73,7 +71,18 @@ class ProductsPage extends Component {
 
   submitData(e) {
     e.preventDefault()
-    this.props.dispatch(addProduct(this.state.formData))
+    this.props.dispatch(
+      addProduct({
+        ...this.state.formData,
+        price: this.state.formData.price
+      })
+    )
+    this.setState({
+      formData: {
+        name: '',
+        price: ''
+      }
+    })
     this.toggleModal()
   }
 
@@ -82,6 +91,12 @@ class ProductsPage extends Component {
     this.props.dispatch(
       editProduct(this.state.currentId, this.state.currentFormData)
     )
+    this.setState({
+      currentFormData: {
+        name: '',
+        price: ''
+      }
+    })
     this.toggleEditModal()
   }
 
@@ -222,7 +237,8 @@ ProductsPage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  products: state.products.items
+  products: state.products.items,
+  isFetching: state.products.isFetching
 })
 
 export default connect(mapStateToProps)(ProductsPage)

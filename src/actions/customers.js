@@ -49,7 +49,7 @@ export const addCustomer = data => dispatch => {
   dispatch(requestCreateCustomer())
   return axios
     .post('/api/customers', data)
-    .then(() => dispatch(receiveCreateCustomer(data)))
+    .then(response => dispatch(receiveCreateCustomer(response.data)))
 }
 
 export const editCustomer = (id, data) => dispatch => {

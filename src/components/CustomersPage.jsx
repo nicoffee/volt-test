@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import uuid from 'uuid'
 import { Button, PageHeader } from 'react-bootstrap'
 import Loader from 'react-loader'
 import FormModal from './Modals/FormModal'
@@ -28,17 +27,16 @@ class CustomersPage extends Component {
       isEditModalOpen: false,
       isDeleteModalOpen: false,
       formData: {
-        id: uuid(),
-        name: null,
-        address: null,
-        phone: null
+        name: '',
+        address: '',
+        phone: ''
       },
-      currentId: null,
       currentFormData: {
-        name: null,
-        address: null,
-        phone: null
-      }
+        name: '',
+        address: '',
+        phone: ''
+      },
+      currentId: null
     }
 
     this.toggleModal = this.toggleModal.bind(this)
@@ -77,6 +75,13 @@ class CustomersPage extends Component {
   submitData(e) {
     e.preventDefault()
     this.props.dispatch(addCustomer(this.state.formData))
+    this.setState({
+      formData: {
+        name: '',
+        address: '',
+        phone: ''
+      }
+    })
     this.toggleModal()
   }
 
@@ -85,6 +90,13 @@ class CustomersPage extends Component {
     this.props.dispatch(
       editCustomer(this.state.currentId, this.state.currentFormData)
     )
+    this.setState({
+      currentFormData: {
+        name: '',
+        address: '',
+        phone: ''
+      }
+    })
     this.toggleEditModal()
   }
 

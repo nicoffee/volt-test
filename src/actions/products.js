@@ -17,7 +17,7 @@ const requestCreateProduct = () => ({
 const receiveCreateProduct = data => {
   return {
     type: types.CREATE_PRODUCT_SUCCESS,
-    payload: { ...data, price: (+data.price).toFixed(2) }
+    payload: data
   }
 }
 
@@ -49,9 +49,9 @@ export const fetchProducts = () => dispatch => {
 
 export const addProduct = data => dispatch => {
   dispatch(requestCreateProduct())
-  return axios
-    .post('/api/products', data)
-    .then(() => dispatch(receiveCreateProduct(data)))
+  return axios.post('/api/products', data).then(response => {
+    return dispatch(receiveCreateProduct(response.data))
+  })
 }
 
 export const editProduct = (id, data) => dispatch => {
