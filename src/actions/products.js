@@ -63,7 +63,7 @@ export const editProduct = (id, data) => dispatch => {
 
 export const deleteProduct = id => dispatch => {
   dispatch(requestDeleteProduct())
-  return axios.delete(`/api/products/${id}`).then(response => {
+  return axios.delete(`/api/products/${id}`).then(() => {
     dispatch(receiveDeleteProduct(id))
   })
 }

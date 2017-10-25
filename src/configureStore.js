@@ -5,9 +5,9 @@ import rootReducer from './reducers'
 
 const configureStore = () => {
   const middlewares = [ReduxThunk]
-
+  /* eslint-disable no-undef */
   if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-line no-undef
+    /* eslint-enable */
     middlewares.push(logger)
   }
 

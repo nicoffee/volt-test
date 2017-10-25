@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
 import DocumentTitle from 'react-document-title'
-import { Button, Grid, PageHeader } from 'react-bootstrap'
+import { Grid } from 'react-bootstrap'
 
 const Layout = ({ title, children }) => [
   <Header key="header" />,

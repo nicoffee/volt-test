@@ -25,7 +25,6 @@ const customers = (
         isFetching: true
       }
     case types.CREATE_CUSTOMER_SUCCESS:
-      console.log('action', action)
       return {
         ...state,
         isFetching: false,
