@@ -8,7 +8,7 @@ import IndexPage from './IndexPage'
 
 const Root = ({ store }) => (
   <Provider store={store}>
-    <Router basename="/test-volt">
+    <Router basename="/volt-test">
       <div>
         <Route exact path="/" component={IndexPage} />
         <Route path="/customers" component={CustomersPage} />
