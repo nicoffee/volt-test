@@ -62,7 +62,7 @@ const FormModal = ({
             />
           </FormGroup>,
           <FormGroup key="phone">
-            <ControlLabel>Price</ControlLabel>
+            <ControlLabel>Phone</ControlLabel>
             <FormControl
               value={phone}
               name="phone"

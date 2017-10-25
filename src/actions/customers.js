@@ -48,20 +48,20 @@ export const fetchCustomers = () => dispatch => {
 export const addCustomer = data => dispatch => {
   dispatch(requestCreateCustomer())
   return axios
-    .post('/api/products', data)
+    .post('/api/customers', data)
     .then(() => dispatch(receiveCreateCustomer(data)))
 }
 
 export const editCustomer = (id, data) => dispatch => {
   dispatch(requestEditCustomer())
   return axios
-    .put(`/api/products/${id}`, data)
+    .put(`/api/customers/${id}`, data)
     .then(() => dispatch(receiveEditCustomer(id, data)))
 }
 
 export const deleteCustomer = id => dispatch => {
   dispatch(requestDeleteCustomer())
-  return axios.delete(`/api/products/${id}`).then(() => {
+  return axios.delete(`/api/customers/${id}`).then(() => {
     dispatch(receiveDeleteCustomer(id))
   })
 }

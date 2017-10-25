@@ -10,7 +10,7 @@ const Root = ({ store }) => (
   <Provider store={store}>
     <Router basename="/test-volt">
       <div>
-        <Route path="/" component={IndexPage} />
+        <Route exact path="/" component={IndexPage} />
         <Route path="/customers" component={CustomersPage} />
         <Route path="/products" component={ProductsPage} />
       </div>

@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuid from 'uuid'
-import DocumentTitle from 'react-document-title'
-import { Button, Grid, PageHeader } from 'react-bootstrap'
+import { Button, PageHeader } from 'react-bootstrap'
 import Loader from 'react-loader'
 import {
   fetchProducts,
@@ -14,6 +13,7 @@ import {
 import FormModal from './Modals/FormModal'
 import DeleteModal from './Modals/DeleteModal'
 import ContentTable from './ContentTable'
+import Layout from './Layout'
 
 class ProductsPage extends Component {
   constructor() {
@@ -30,8 +30,8 @@ class ProductsPage extends Component {
       },
       currentId: null,
       currentFormData: {
-        name: '',
-        price: ''
+        name: null,
+        price: null
       }
     }
 
@@ -126,7 +126,7 @@ class ProductsPage extends Component {
         this.setState({
           currentFormData: {
             ...this.state.currentFormData,
-            address: e.target.value
+            price: e.target.value
           }
         })
         return
@@ -154,54 +154,63 @@ class ProductsPage extends Component {
   render() {
     const { isFetching, products } = this.props
 
-    return isFetching ? (
-      <span>Loading...</span>
-    ) : (
-      <DocumentTitle title="Products">
-        <Grid>
-          <PageHeader>
-            <strong>Product list</strong>{' '}
-            <Button onClick={this.toggleModal}>Create</Button>
-          </PageHeader>
-          <ContentTable
-            type="products"
-            columns={['#', 'Name', 'Price']}
-            items={products}
-            onEditClick={this.handleEditCLick}
-            onDeleteClick={this.handleDeleteClick}
-          />
+    const Modals = [
+      <FormModal
+        key="create_modal"
+        page="products"
+        title="Create"
+        buttonCaption="Create"
+        show={this.state.isModalOpen}
+        onHide={this.toggleModal}
+        onSubmit={this.submitData}
+        onChange={this.handleChange}
+        onClick={this.submitData}
+      />,
 
-          <FormModal
-            page="products"
-            title="Create"
-            buttonCaption="Create"
-            show={this.state.isModalOpen}
-            onHide={this.toggleModal}
-            onSubmit={this.submitData}
-            onChange={this.handleChange}
-            onClick={this.submitData}
-          />
+      <FormModal
+        key="edit_modal"
+        page="products"
+        title="Edit"
+        buttonCaption="Edit"
+        show={this.state.isEditModalOpen}
+        onHide={this.toggleEditModal}
+        onSubmit={this.submitDataEdit}
+        name={this.state.currentFormData.name}
+        price={this.state.currentFormData.price}
+        onChange={this.handleEditChange}
+        onClick={this.submitDataEdit}
+      />,
 
-          <FormModal
-            page="products"
-            title="Edit"
-            buttonCaption="Edit"
-            show={this.state.isEditModalOpen}
-            onHide={this.toggleEditModal}
-            onSubmit={this.submitDataEdit}
-            name={this.state.currentFormData.name}
-            price={this.state.currentFormData.price}
-            onChange={this.handleEditChange}
-            onClick={this.submitDataEdit}
-          />
+      <DeleteModal
+        key="delete_modal"
+        show={this.state.isDeleteModalOpen}
+        onHide={this.toggleDeleteModal}
+        onClick={this.submitDataDelete}
+      />
+    ]
 
-          <DeleteModal
-            show={this.state.isDeleteModalOpen}
-            onHide={this.toggleDeleteModal}
-            onClick={this.submitDataDelete}
-          />
-        </Grid>
-      </DocumentTitle>
+    return (
+      <Layout title="Products">
+        {isFetching ? (
+          <Loader />
+        ) : (
+          [
+            <PageHeader key="header">
+              <strong>Product list</strong>{' '}
+              <Button onClick={this.toggleModal}>Create</Button>
+            </PageHeader>,
+            <ContentTable
+              key="content"
+              type="products"
+              columns={['#', 'Name', 'Price']}
+              items={products}
+              onEditClick={this.handleEditCLick}
+              onDeleteClick={this.handleDeleteClick}
+            />,
+            Modals
+          ]
+        )}
+      </Layout>
     )
   }
 }

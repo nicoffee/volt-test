@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuid from 'uuid'
-import DocumentTitle from 'react-document-title'
-import { Button, Grid, PageHeader } from 'react-bootstrap'
+import { Button, PageHeader } from 'react-bootstrap'
 import Loader from 'react-loader'
 import FormModal from './Modals/FormModal'
 import DeleteModal from './Modals/DeleteModal'
 import ContentTable from './ContentTable'
+import Layout from './Layout'
 import {
   fetchCustomers,
   addCustomer,
@@ -35,9 +35,9 @@ class CustomersPage extends Component {
       },
       currentId: null,
       currentFormData: {
-        name: '',
-        address: '',
-        phone: ''
+        name: null,
+        address: null,
+        phone: null
       }
     }
 
@@ -104,14 +104,21 @@ class CustomersPage extends Component {
           }
         })
         return
-      case 'price':
+      case 'address':
         this.setState({
           formData: {
             ...this.state.formData,
-            price: e.target.value
+            address: e.target.value
           }
         })
         return
+      case 'phone':
+        this.setState({
+          formData: {
+            ...this.state.formData,
+            phone: e.target.value
+          }
+        })
     }
   }
 
@@ -165,55 +172,64 @@ class CustomersPage extends Component {
   render() {
     const { isFetching, customers } = this.props
 
-    return isFetching ? (
-      <Loader />
-    ) : (
-      <DocumentTitle title="Customers">
-        <Grid>
-          <PageHeader>
-            <strong>Customers list</strong>{' '}
-            <Button onClick={this.toggleModal}>Create</Button>
-          </PageHeader>
-          <ContentTable
-            type="customers"
-            columns={['#', 'Name', 'Address', 'Phone']}
-            items={customers}
-            onEditClick={this.handleEditCLick}
-            onDeleteClick={this.handleDeleteClick}
-          />
+    const Modals = [
+      <FormModal
+        key="create_modal"
+        page="customers"
+        show={this.state.isModalOpen}
+        onHide={this.toggleModal}
+        title="Create"
+        onSubmit={this.submitData}
+        onChange={this.handleChange}
+        onClick={this.submitData}
+        buttonCaption="Create"
+      />,
 
-          <FormModal
-            page="customers"
-            show={this.state.isModalOpen}
-            onHide={this.toggleModal}
-            title="Create"
-            onSubmit={this.submitData}
-            onChange={this.handleChange}
-            onClick={this.submitData}
-            buttonCaption="Create"
-          />
+      <FormModal
+        key="edit_modal"
+        page="customers"
+        show={this.state.isEditModalOpen}
+        onHide={this.toggleEditModal}
+        title="Edit"
+        onSubmit={this.submitDataEdit}
+        name={this.state.currentFormData.name}
+        address={this.state.currentFormData.address}
+        phone={this.state.currentFormData.phone}
+        onChange={this.handleEditChange}
+        onClick={this.submitDataEdit}
+        buttonCaption="Edit"
+      />,
 
-          <FormModal
-            page="customers"
-            show={this.state.isEditModalOpen}
-            onHide={this.toggleEditModal}
-            title="Edit"
-            onSubmit={this.submitDataEdit}
-            name={this.state.currentFormData.name}
-            address={this.state.currentFormData.address}
-            phone={this.state.currentFormData.phone}
-            onChange={this.handleEditChange}
-            onClick={this.submitDataEdit}
-            buttonCaption="Edit"
-          />
+      <DeleteModal
+        key="delete_modal"
+        show={this.state.isDeleteModalOpen}
+        onHide={this.toggleDeleteModal}
+        onClick={this.submitDataDelete}
+      />
+    ]
 
-          <DeleteModal
-            show={this.state.isDeleteModalOpen}
-            onHide={this.toggleDeleteModal}
-            onClick={this.submitDataDelete}
-          />
-        </Grid>
-      </DocumentTitle>
+    return (
+      <Layout title="Customers">
+        {isFetching ? (
+          <Loader />
+        ) : (
+          [
+            <PageHeader key="header">
+              <strong>Customers list</strong>{' '}
+              <Button onClick={this.toggleModal}>Create</Button>
+            </PageHeader>,
+            <ContentTable
+              key="content"
+              type="customers"
+              columns={['#', 'Name', 'Address', 'Phone']}
+              items={customers}
+              onEditClick={this.handleEditCLick}
+              onDeleteClick={this.handleDeleteClick}
+            />,
+            Modals
+          ]
+        )}
+      </Layout>
     )
   }
 }

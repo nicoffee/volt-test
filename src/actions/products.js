@@ -51,14 +51,14 @@ export const addProduct = data => dispatch => {
   dispatch(requestCreateProduct())
   return axios
     .post('/api/products', data)
-    .then(response => dispatch(receiveCreateProduct(data)))
+    .then(() => dispatch(receiveCreateProduct(data)))
 }
 
 export const editProduct = (id, data) => dispatch => {
   dispatch(requestEditProduct())
   return axios
     .put(`/api/products/${id}`, data)
-    .then(response => dispatch(receiveEditProduct(id, data)))
+    .then(() => dispatch(receiveEditProduct(id, data)))
 }
 
 export const deleteProduct = id => dispatch => {
