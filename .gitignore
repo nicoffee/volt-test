@@ -1,7 +1,6 @@
 node_modules/
 mockups/
 .idea/
-public/
 .DS_Store
 src/.DS_Store
 invoices.sqlite
